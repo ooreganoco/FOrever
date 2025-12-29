@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Copy Nomor Rekening</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: white;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Salin Nomor Rekening</h1>
+  <button id="copy-btn">Copy & Open</button>
+
+  <script>
+    const copyBtn = document.getElementById("copy-btn");
+    const norek = "12345";
+
+    copyBtn.addEventListener("click", () => {
+      const newTab = window.open("", "_blank");
+
+      newTab.document.write(`
+        <html>
+          <head>
+            <title>Nomor Rekening</title>
+            <style>
+              body { font-family: Arial; display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column; background-color: #f5f5f5; }
+              h1 { color: green; }
+              button { padding: 10px 20px; font-size: 16px; cursor: pointer; border: none; border-radius: 5px; background-color: #007bff; color: white; margin-top: 20px; }
+              button:hover { background-color: #0056b3; }
+            </style>
+          </head>
+          <body>
+            <h1>Menyalin nomor rekening...</h1>
+            <script>
+              const norek = "${norek}";
+              navigator.clipboard.writeText(norek)
+                .then(() => {
+                  document.body.innerHTML = "<h1>Nomor rekening berhasil dicopy: ${norek}</h1><button onclick='window.close()'>Tutup</button>";
+                })
+                .catch(err => {
+                  document.body.innerHTML = "<h1>Gagal menyalin nomor rekening</h1><button onclick='window.close()'>Tutup</button>";
+                });
+            <\/script>
+          </body>
+        </html>
+      `);
+    });
+  </script>
+</body>
+</html>
